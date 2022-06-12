@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Record_Id__c</fullName>
-    <description>Record Id of the Course Option Enrollment that triggered this Registration Alert</description>
+    <description>Record Id of the Course Option Enrollment that triggered this Registration Alert. Used to update and/or remove the alert</description>
     <externalId>false</externalId>
-    <inlineHelpText>Record Id of the Course Option Enrollment that triggered this Registration Alert</inlineHelpText>
+    <inlineHelpText>Record Id of the Course Option Enrollment that triggered this Registration Alert. Used to update and/or remove the alert</inlineHelpText>
     <isFilteringDisabled>false</isFilteringDisabled>
     <isNameField>false</isNameField>
     <isSortingDisabled>false</isSortingDisabled>
