@@ -1,11 +1,23 @@
 <template>
 	<template if:true={hasMessage}>
 		<lightning-card title="Alert" icon-name="utility:alert">
-			<template for:each={messages} for:item="msg">
-				<p key={msg.Record_Id__c} class={msg.style}>
-					<b>{msg.Message__c}</b>
-				</p>
+			<!-- SHOW/HIDE BUTTON -->
+			<lightning-button 
+				variant="brand-outline" 
+				label={toggleDetailsLabel} 
+				title="Toggle Details" 
+				onclick={handleToggleDetails} 
+				class="slds-var-m-left_x-small" 
+				slot="actions"
+			></lightning-button>
+			<!-- EVENT MESSAGES -->
+			<template if:true={showDetails}>
+				<template for:each={messages} for:item="msg">
+					<p key={msg.Record_Id__c} class={msg.style}>
+						<b>{msg.Message__c}</b>
+					</p>
+				</template>
 			</template>
 		</lightning-card>
-	</template>    
+	</template>
 </template>

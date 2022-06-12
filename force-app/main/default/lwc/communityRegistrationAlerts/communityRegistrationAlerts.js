@@ -13,6 +13,10 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 	hasMessage = false;
 	@track messages = [];
 
+	showDetails = true;
+	toggleDetailsLabel = 'Hide';
+
+
 	@wire(getSessionId)
 	wiredSessionId({ error, data }) {
 		if (data) {
@@ -36,11 +40,9 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 		}
 
 		this.libInitialized = true;
-
-		// Initializing cometD object/class
 		var cometdlib = new window.org.cometd.CometD();
 
-		// Calling configure method of cometD class, to setup authentication which will be used in handshaking
+		// Configure cometD
 		cometdlib.configure({
 			url: window.location.protocol + '//' + window.location.hostname + '/cometd/54.0/',
 			requestHeaders: { Authorization: 'OAuth ' + this.sessionId},
@@ -53,8 +55,7 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 		cometdlib.handshake( (status) => {
 					
 			if (status.successful) {
-				// Successfully connected to the server
-				// Now it is possible to subscribe or send messages
+				// Subscribe to registration alert channel
 				cometdlib.subscribe('/event/Registration_Alert__e', (message) => {
 					let msg = message.data.payload;
 					let toastVariant = msg.Variant__c != null ? msg.Variant__c : 'info';
@@ -87,10 +88,11 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 					}
 				});
 			} else {
-				/// Cannot handshake with the server, alert console
+				/// Handshake unsuccessful - alert console
 				console.error('Error in handshaking: ' + JSON.stringify(status));
 			}
 		});
+		
 	}
 
 	getMessageStyle(msg) {
@@ -114,5 +116,9 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 		return style;
 	}
 
+	handleToggleDetails() {
+        this.showDetails = !this.showDetails;
+        this.toggleDetailsLabel = this.showDetails ? 'Hide' : 'Show';
+    }
 
 }
