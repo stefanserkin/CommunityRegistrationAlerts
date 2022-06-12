@@ -1,0 +1,11 @@
+<template>
+	<template if:true={hasMessage}>
+		<lightning-card title="Alert" icon-name="utility:alert">
+			<template for:each={messages} for:item="msg">
+				<p key={msg.Record_Id__c} class={msg.style}>
+					<b>{msg.Message__c}</b>
+				</p>
+			</template>
+		</lightning-card>
+	</template>    
+</template>
