@@ -70,7 +70,7 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 						});
 						this.dispatchEvent(toastEvent);
 					}
-					// Set style
+					// Handle alert array actions
 					if (msg.Action__c === 'Add') {
 						// Set style
 						msg.style = this.getMessageStyle(msg);
