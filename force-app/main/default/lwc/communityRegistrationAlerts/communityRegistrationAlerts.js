@@ -58,9 +58,9 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 				// Subscribe to registration alert channel
 				cometdlib.subscribe('/event/Registration_Alert__e', (message) => {
 					let msg = message.data.payload;
-					let toastVariant = msg.Variant__c != null ? msg.Variant__c : 'info';
-					let toastTitle = msg.Title__c != null ? msg.Title__c : 'Alert';
-					let toastMessage = msg.Message__c != null ? msg.Message__c : '';
+					let toastVariant = msg.Toast_Variant__c != null ? msg.Toast_Variant__c : 'info';
+					let toastTitle = msg.Toast_Title__c != null ? msg.Toast_Title__c : 'Alert';
+					let toastMessage = msg.Toast_Message__c != null ? msg.Toast_Message__c : '';
 					// Toast message
 					if (msg.Show_Toast__c) {
 						const toastEvent = new ShowToastEvent({
@@ -97,9 +97,9 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 
 	getMessageStyle(msg) {
 		var style = '';
-		switch (msg.Variant__c) {
+		switch (msg.Toast_Variant__c) {
 			case 'success':
-				style = 'slds-var-m-around_large slds-text-color_success slds-text-heading_small';
+				style = 'slds-var-m-around_large slds-text-heading_small';
 				break;
 			case 'error':
 				style = 'slds-var-m-around_large slds-text-color_error slds-text-heading_small';

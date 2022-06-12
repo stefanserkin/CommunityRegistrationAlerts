@@ -1,6 +1,6 @@
 <template>
 	<template if:true={hasMessage}>
-		<lightning-card title="Alert" icon-name="utility:alert">
+		<lightning-card title="Alert" icon-name="utility:alert" variant="narrow">
 			<!-- SHOW/HIDE BUTTON -->
 			<lightning-button 
 				variant="brand-outline" 
@@ -13,9 +13,11 @@
 			<!-- EVENT MESSAGES -->
 			<template if:true={showDetails}>
 				<template for:each={messages} for:item="msg">
-					<p key={msg.Record_Id__c} class={msg.style}>
-						<b>{msg.Message__c}</b>
-					</p>
+					<p key={msg.Record_Id__c} class={msg.style}><b>
+						<lightning-formatted-rich-text
+							value={msg.Message__c}
+						></lightning-formatted-rich-text>
+					</b></p>
 				</template>
 			</template>
 		</lightning-card>
