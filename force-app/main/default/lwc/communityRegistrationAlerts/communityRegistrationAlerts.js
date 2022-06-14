@@ -90,7 +90,6 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 		let toastVariant = msg.Toast_Variant__c != null ? msg.Toast_Variant__c : 'info';
 		let toastTitle = msg.Toast_Title__c != null ? msg.Toast_Title__c : 'Alert';
 		let toastMessage = msg.Toast_Message__c != null ? msg.Toast_Message__c : '';
-		console.log(msg.Toast_Mode__c);
 		let toastMode = msg.Toast_Mode__c != null ? msg.Toast_Mode__c : 'dismissable';	
 		const toastEvent = new ShowToastEvent({
 			title: toastTitle,
