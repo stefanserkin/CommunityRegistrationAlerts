@@ -58,25 +58,12 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 				// Subscribe to registration alert channel
 				cometdlib.subscribe('/event/Registration_Alert__e', (message) => {
 					let msg = message.data.payload;
-					// Toast message
+					// Raise toast
 					if (msg.Show_Toast__c) {
 						this.showToast(msg);
 					}
-					// Handle alert array actions
-					if (msg.Action__c === 'Add') {
-						// Set style
-						msg.style = this.getMessageStyle(msg);
-						// Add alert
-						this.messages.push(msg);
-						this.hasMessage = true;
-					} else if (msg.Action__c === 'Remove') {
-						for (let i = 0; i < this.messages.length; i++) {
-							if (this.messages[i].Record_Id__c == msg.Record_Id__c) {
-								this.messages.splice(i, 1);
-							}
-						}
-						this.hasMessage = this.messages.length > 0 ? true : false;
-					}
+					// Update array based on event action
+					this.handleEventAction(msg);
 				});
 			} else {
 				/// Handshake unsuccessful - alert console
@@ -84,6 +71,41 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 			}
 		});
 		
+	}
+
+	handleEventAction(msg) {
+		switch (msg.Action__c) {
+
+			case 'Add' :
+				msg.style = this.getMessageStyle(msg.Toast_Variant__c);
+				this.messages.push(msg);
+				this.hasMessage = true;
+				break;
+
+			case 'Update' :
+				let hasExisting = false;
+				for (let i = 0; i < this.messages.length; i++) {
+					if (this.messages[i].Record_Id__c == msg.Record_Id__c) {
+						this.messages[i].Message__c = msg.Message__c;
+						hasExisting = true;
+					}
+				}
+				if (!hasExisting) {
+					msg.style = this.getMessageStyle(msg.Toast_Variant__c);
+					this.messages.push(msg);
+					this.hasMessage = true;
+				}
+				break;
+				
+			case 'Remove' :
+				for (let i = 0; i < this.messages.length; i++) {
+					if (this.messages[i].Record_Id__c == msg.Record_Id__c) {
+						this.messages.splice(i, 1);
+					}
+				}
+				this.hasMessage = this.messages.length > 0 ? true : false;
+				break;
+		}
 	}
 
 	showToast(msg) {
@@ -100,9 +122,9 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 		this.dispatchEvent(toastEvent);
 	}
 
-	getMessageStyle(msg) {
+	getMessageStyle(toastVariant) {
 		var style = '';
-		switch (msg.Toast_Variant__c) {
+		switch (toastVariant) {
 			case 'success':
 				style = 'slds-var-m-around_large slds-text-heading_small';
 				break;
