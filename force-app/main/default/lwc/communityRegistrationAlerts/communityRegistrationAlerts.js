@@ -58,18 +58,9 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 				// Subscribe to registration alert channel
 				cometdlib.subscribe('/event/Registration_Alert__e', (message) => {
 					let msg = message.data.payload;
-					let toastVariant = msg.Toast_Variant__c != null ? msg.Toast_Variant__c : 'info';
-					let toastTitle = msg.Toast_Title__c != null ? msg.Toast_Title__c : 'Alert';
-					let toastMessage = msg.Toast_Message__c != null ? msg.Toast_Message__c : '';
 					// Toast message
 					if (msg.Show_Toast__c) {
-						const toastEvent = new ShowToastEvent({
-							title: toastTitle,
-							message: toastMessage,
-							variant: toastVariant,
-							mode: 'dismissable'
-						});
-						this.dispatchEvent(toastEvent);
+						this.showToast(msg);
 					}
 					// Handle alert array actions
 					if (msg.Action__c === 'Add') {
@@ -93,6 +84,21 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 			}
 		});
 		
+	}
+
+	showToast(msg) {
+		let toastVariant = msg.Toast_Variant__c != null ? msg.Toast_Variant__c : 'info';
+		let toastTitle = msg.Toast_Title__c != null ? msg.Toast_Title__c : 'Alert';
+		let toastMessage = msg.Toast_Message__c != null ? msg.Toast_Message__c : '';
+		console.log(msg.Toast_Mode__c);
+		let toastMode = msg.Toast_Mode__c != null ? msg.Toast_Mode__c : 'dismissable';	
+		const toastEvent = new ShowToastEvent({
+			title: toastTitle,
+			message: toastMessage,
+			variant: toastVariant,
+			mode: toastMode
+		});
+		this.dispatchEvent(toastEvent);
 	}
 
 	getMessageStyle(msg) {
