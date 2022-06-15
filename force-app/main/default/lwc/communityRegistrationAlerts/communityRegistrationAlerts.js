@@ -58,11 +58,9 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 				// Subscribe to registration alert channel
 				cometdlib.subscribe('/event/Registration_Alert__e', (message) => {
 					let msg = message.data.payload;
-					// Raise toast
 					if (msg.Show_Toast__c) {
-						this.showToast(msg);
+						this.raiseToast(msg);
 					}
-					// Update array based on event action
 					this.handleEventAction(msg);
 				});
 			} else {
@@ -105,14 +103,20 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 				}
 				this.hasMessage = this.messages.length > 0 ? true : false;
 				break;
+
+			case 'Toast Only' :
+				console.log('Toast Only');
+				break;
+
 		}
+
 	}
 
-	showToast(msg) {
+	raiseToast(msg) {
 		let toastVariant = msg.Toast_Variant__c != null ? msg.Toast_Variant__c : 'info';
 		let toastTitle = msg.Toast_Title__c != null ? msg.Toast_Title__c : 'Alert';
 		let toastMessage = msg.Toast_Message__c != null ? msg.Toast_Message__c : '';
-		let toastMode = msg.Toast_Mode__c != null ? msg.Toast_Mode__c : 'dismissable';	
+		let toastMode = msg.Toast_Mode__c != null ? msg.Toast_Mode__c : 'dismissible';	
 		const toastEvent = new ShowToastEvent({
 			title: toastTitle,
 			message: toastMessage,
