@@ -1,0 +1,30 @@
+<template>
+	<section class="slds-popover slds-float_right slds-popover_medium slds-popover_warning slds-nubbin_right-top" role="dialog">
+		<button class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close" title="Close dialog" onclick={handleCloseEvent}>
+			<lightning-icon icon-name="utility:close" alternative-text="Close" title="Close" size="small"></lightning-icon>
+		</button>
+		<header class="slds-popover__header">
+			<div class="slds-media slds-media_center slds-has-flexi-truncate">
+				<div class="slds-media__figure">
+					<span class="slds-icon_container slds-icon-utility-error">
+						<lightning-icon icon-name={iconName} alternative-text="Error" title="Error" size="small"></lightning-icon>
+					</span>
+				</div>
+				<div class="slds-media__body">
+					<h2 class="slds-truncate slds-text-heading_medium">{header}</h2>
+				  </div>
+			  </div>
+		</header>
+		<div class="slds-popover__body">
+			<ul>
+				<template for:each={messages} for:item="msg">
+					<li key={msg.Record_Id__c} class={msg.style}><b>
+						<lightning-formatted-rich-text
+							value={msg.Message__c}
+						></lightning-formatted-rich-text>
+					</b></li>
+				</template>
+			</ul>
+		</div>
+	</section>
+</template>

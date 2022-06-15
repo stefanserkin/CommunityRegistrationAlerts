@@ -1,4 +1,4 @@
-import { LightningElement, wire, track } from "lwc";
+import { LightningElement, wire, track, api } from "lwc";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadScript } from "lightning/platformResourceLoader";
 import cometdJS from "@salesforce/resourceUrl/cometd";
@@ -12,6 +12,10 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 
 	hasMessage = false;
 	@track messages = [];
+
+	@api subtleMode = false;
+	@api subtleModeHeader;
+	showPopover = false;
 
 	showDetails = true;
 	toggleDetailsLabel = 'Hide';
@@ -151,5 +155,10 @@ export default class CommunityRegistrationAlerts extends LightningElement {
         this.showDetails = !this.showDetails;
         this.toggleDetailsLabel = this.showDetails ? 'Hide' : 'Show';
     }
+
+	handleTogglePopover() {
+		this.showPopover = !this.showPopover;
+		console.log('show popover is ' + this.showPopover);
+	}
 
 }

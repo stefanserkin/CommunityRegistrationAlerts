@@ -7,4 +7,22 @@
         <target>lightningCommunity__Page</target>
         <target>lightningCommunity__Default</target>
     </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property 
+                name="subtleMode" 
+                label="Subtle Mode" 
+                type="Boolean" 
+                default="false" 
+                description="Only an alert icon will be displayed with alerts shown on hover"
+            />
+            <property 
+                name="subtleModeHeader" 
+                label="Subtle Mode Popover Header" 
+                type="String" 
+                default="Alerts" 
+                description="The header of the popover when in subtle mode" 
+            />
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>
