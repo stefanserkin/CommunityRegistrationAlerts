@@ -3,11 +3,13 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadScript } from "lightning/platformResourceLoader";
 import cometdJS from "@salesforce/resourceUrl/cometd";
 import getSessionId from '@salesforce/apex/CommunityRegistrationAlertsCtrl.getSessionId';
+import communityUserId from '@salesforce/user/Id';
 
 export default class CommunityRegistrationAlerts extends LightningElement {
 
 	libInitialized = false;
 	sessionId;
+	userId = communityUserId;
 	error;
 
 	hasMessage = false;
@@ -62,10 +64,12 @@ export default class CommunityRegistrationAlerts extends LightningElement {
 				// Subscribe to registration alert channel
 				cometdlib.subscribe('/event/Registration_Alert__e', (message) => {
 					let msg = message.data.payload;
-					if (msg.Show_Toast__c) {
-						this.raiseToast(msg);
+					if (msg.User_Id__c.substring(0,15) === this.userId.substring(0,15)) {
+						if (msg.Show_Toast__c) {
+							this.raiseToast(msg);
+						}
+						this.handleEventAction(msg);	
 					}
-					this.handleEventAction(msg);
 				});
 			} else {
 				/// Handshake unsuccessful - alert console
